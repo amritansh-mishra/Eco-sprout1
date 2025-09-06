@@ -70,7 +70,8 @@ EcoSprout addresses these challenges through:
 
 3. **Access the Application**
    - Frontend: http://localhost:5174
-   - Backend API: http://localhost:5000
+   - Backend API: http://localhost:5000/api
+   - Backend Health: http://localhost:5000/api/health
 
 ---
 
