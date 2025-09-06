@@ -50,17 +50,9 @@ EcoSprout addresses these challenges through:
 ### Prerequisites
 - **Node.js** (v14 or higher)
 - **MongoDB** (v4.4 or higher)
-- **Git**
 
-### Quick Setup
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/yourusername/ecosprout.git
-   cd EcoSprout-1
-   ```
-
-2. **Backend Setup**
+1. **Backend Setup**
    ```bash
    cd backend
    npm install
@@ -69,14 +61,14 @@ EcoSprout addresses these challenges through:
    npm run dev
    ```
 
-3. **Frontend Setup** (new terminal)
+2. **Frontend Setup** (new terminal)
    ```bash
    cd frontend
    npm install
    npm run dev
    ```
 
-4. **Access the Application**
+3. **Access the Application**
    - Frontend: http://localhost:5174
    - Backend API: http://localhost:5000
 
