@@ -1,172 +1,328 @@
 # EcoSprout 🌱
 
-A sustainable development project focused on environmental solutions.
+**A Sustainable Marketplace for the Circular Economy**
 
-## Quick Start
-
-### Prerequisites
-- Git installed and configured
-- GitHub account
-- Node.js (for JavaScript scripts)
-
-### GitHub Setup
-
-1. **Create a GitHub repository** (if you haven't already):
-   - Go to [GitHub](https://github.com) and create a new repository
-   - Name it `EcoSprout` or your preferred name
-   - Don't initialize with README (since this project already exists)
-
-2. **Configure Git** (if not already done):
-   ```bash
-   git config --global user.name "Your Name"
-   git config --global user.email "your.email@example.com"
-   ```
-
-3. **Add your GitHub repository as remote**:
-   ```bash
-   git remote add origin https://github.com/yourusername/ecosprout.git
-   ```
-   Or with SSH:
-   ```bash
-   git remote add origin git@github.com:yourusername/ecosprout.git
-   ```
-
-### Pushing to GitHub
-
-#### Method 1: Using the Shell Script (Recommended)
-```bash
-# Make the script executable (already done)
-chmod +x push-to-github.sh
-
-# Run the script
-./push-to-github.sh
-
-# Or with a custom commit message
-./push-to-github.sh "Your commit message here"
-
-# Check configuration only
-./push-to-github.sh --check
-
-# View help
-./push-to-github.sh --help
-```
-
-#### Method 2: Using the Node.js Script
-```bash
-# Deploy with default message
-node github-manager.js deploy
-
-# Deploy with custom message
-node github-manager.js deploy "Add new features"
-
-# Initialize and add remote
-node github-manager.js init https://github.com/yourusername/ecosprout.git
-
-# Check status
-node github-manager.js status
-
-# Push only
-node github-manager.js push
-
-# Pull latest changes
-node github-manager.js pull
-
-# View help
-node github-manager.js help
-```
-
-#### Method 3: Manual Git Commands
-```bash
-# Add all changes
-git add .
-
-# Commit changes
-git commit -m "Your commit message"
-
-# Push to GitHub
-git push origin main
-```
-
-### Features of the GitHub Scripts
-
-#### Shell Script (`push-to-github.sh`)
-- ✅ Colorized output for better readability
-- ✅ Comprehensive error checking
-- ✅ Git configuration validation
-- ✅ Remote repository verification
-- ✅ Interactive commit message input
-- ✅ Automatic branch detection
-- ✅ Force push option (use with caution)
-- ✅ Configuration check mode
-
-#### Node.js Script (`github-manager.js`)
-- ✅ Programmatic Git operations
-- ✅ Complete workflow automation
-- ✅ Status reporting
-- ✅ Error handling and recovery
-- ✅ Remote repository management
-- ✅ Branch management
-- ✅ Modular design for integration
-
-### Project Structure
-```
-EcoSprout-1/
-├── frontend/           # Frontend application
-├── .gitignore         # Git ignore rules
-├── push-to-github.sh  # Shell script for GitHub operations
-├── github-manager.js  # Node.js script for GitHub operations
-└── README.md          # This file
-```
-
-### Troubleshooting
-
-#### Common Issues
-
-1. **"Git user.name is not configured"**
-   ```bash
-   git config --global user.name "Your Name"
-   git config --global user.email "your.email@example.com"
-   ```
-
-2. **"No remote origin found"**
-   ```bash
-   git remote add origin https://github.com/yourusername/repository-name.git
-   ```
-
-3. **"Permission denied (publickey)"**
-   - Set up SSH keys or use HTTPS with personal access token
-   - See [GitHub SSH documentation](https://docs.github.com/en/authentication/connecting-to-github-with-ssh)
-
-4. **"Failed to push some refs"**
-   ```bash
-   git pull origin main --rebase
-   git push origin main
-   ```
-
-### GitHub Authentication
-
-#### Using HTTPS with Personal Access Token
-1. Go to GitHub Settings → Developer settings → Personal access tokens
-2. Generate a new token with `repo` permissions
-3. Use the token as your password when prompted
-
-#### Using SSH Keys
-1. Generate SSH key: `ssh-keygen -t ed25519 -C "your.email@example.com"`
-2. Add to SSH agent: `ssh-add ~/.ssh/id_ed25519`
-3. Add public key to GitHub account
-
-### Contributing
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature-name`
-3. Make your changes
-4. Use the provided scripts to push: `./push-to-github.sh "Add feature-name"`
-5. Create a Pull Request
-
-### License
-
-This project is open source. Please check the LICENSE file for details.
+*Empowering communities to buy, sell, and trade pre-owned items while building trust and reducing environmental impact.*
 
 ---
 
-**Happy coding! 🚀**
+## 🎯 Vision & Mission
+
+### Vision
+To create a trusted, sustainable marketplace that transforms how people interact with pre-owned goods, fostering a circular economy where every transaction contributes to environmental preservation and community building.
+
+### Mission
+EcoSprout bridges the gap between sustainability and commerce by providing a secure, trust-based platform where users can:
+- **Buy & Sell** pre-owned items with confidence
+- **Build Trust** through verified profiles and community ratings
+- **Track Impact** with real-time environmental metrics
+- **Earn Rewards** through eco-points and achievement badges
+
+---
+
+## 🏆 Hackathon Highlights
+
+### Problem Statement
+Traditional marketplaces lack trust mechanisms and environmental awareness, leading to:
+- Hesitation in buying pre-owned items
+- Lack of transparency in seller credibility
+- No visibility into environmental impact
+- Limited incentives for sustainable behavior
+
+### Our Solution
+EcoSprout addresses these challenges through:
+- **DigiLocker Integration** for identity verification
+- **Trust Score System** based on transaction history
+- **Environmental Impact Tracking** (CO₂ saved, water conserved)
+- **Gamification** with eco-points and achievement badges
+- **Secure Escrow System** for safe transactions
+
+### Key Innovations
+1. **Trust-First Design** - Every feature builds user confidence
+2. **Environmental Consciousness** - Real-time impact visualization
+3. **Community Gamification** - Rewards for sustainable behavior
+4. **Seamless UX** - Modern, intuitive interface with smooth animations
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- **Node.js** (v14 or higher)
+- **MongoDB** (v4.4 or higher)
+- **Git**
+
+### Quick Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/ecosprout.git
+   cd EcoSprout-1
+   ```
+
+2. **Backend Setup**
+   ```bash
+   cd backend
+   npm install
+   cp .env.example .env
+   # Edit .env with your MongoDB URI and JWT secret
+   npm run dev
+   ```
+
+3. **Frontend Setup** (new terminal)
+   ```bash
+   cd frontend
+   npm install
+   npm run dev
+   ```
+
+4. **Access the Application**
+   - Frontend: http://localhost:5174
+   - Backend API: http://localhost:5000
+
+---
+
+## 🏗️ Architecture & Workflow
+
+### System Architecture
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   React Frontend │    │  Express Backend │    │   MongoDB       │
+│   (Port: 5174)   │◄──►│   (Port: 5000)   │◄──►│   Database      │
+│                 │    │                 │    │                 │
+│ • User Interface │    │ • REST APIs     │    │ • User Data     │
+│ • State Mgmt    │    │ • Authentication│    │ • Items Data    │
+│ • Service Layer │    │ • Business Logic│    │ • Transactions  │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+```
+
+### User Workflow
+1. **Registration/Login** → Identity verification via DigiLocker
+2. **Profile Setup** → Build trust score through verification
+3. **Browse Marketplace** → Discover items with trust indicators
+4. **List Items** → Create listings with environmental impact
+5. **Secure Transactions** → Escrow-protected purchases
+6. **Build Reputation** → Earn eco-points and badges
+
+### Technical Workflow
+1. **Frontend** sends requests via service layer
+2. **Backend** validates, processes, and responds
+3. **Database** stores user data, items, and transactions
+4. **Real-time updates** through optimistic UI updates
+
+---
+
+## 📁 Project Structure
+
+```
+EcoSprout-1/
+├── 📁 backend/                 # Node.js/Express API Server
+│   ├── 📁 controllers/         # Request handlers
+│   │   ├── authController.js   # Authentication logic
+│   │   ├── itemController.js   # Item management
+│   │   └── verificationController.js # DigiLocker integration
+│   ├── 📁 middlewares/         # Custom middleware
+│   │   ├── auth.js            # JWT authentication
+│   │   ├── errorHandler.js    # Error handling
+│   │   └── roleAuth.js        # Role-based access
+│   ├── 📁 models/             # MongoDB schemas
+│   │   ├── User.js            # User model
+│   │   ├── Item.js            # Item model
+│   │   └── Transaction.js     # Transaction model
+│   ├── 📁 routes/             # API routes
+│   │   ├── auth.js            # Auth endpoints
+│   │   ├── items.js           # Item endpoints
+│   │   └── verification.js    # Verification endpoints
+│   ├── app.js                 # Express app configuration
+│   ├── server.js              # Server entry point
+│   └── package.json           # Backend dependencies
+│
+├── 📁 frontend/               # React Application
+│   ├── 📁 src/
+│   │   ├── 📁 components/     # Reusable UI components
+│   │   │   ├── DigiLockerVerification.jsx
+│   │   │   ├── ItemCard.jsx
+│   │   │   ├── TrustBadge.jsx
+│   │   │   └── ...
+│   │   ├── 📁 pages/          # Main application pages
+│   │   │   ├── Dashboard.jsx  # User dashboard
+│   │   │   ├── Marketplace.jsx # Item browsing
+│   │   │   ├── CreateItem.jsx # Item creation
+│   │   │   └── ...
+│   │   ├── 📁 contexts/       # React Context providers
+│   │   │   ├── UserContext.jsx # User state management
+│   │   │   └── ItemContext.jsx # Item state management
+│   │   ├── 📁 services/       # API service layer
+│   │   │   ├── api.js         # HTTP client
+│   │   │   ├── authService.js # Authentication API
+│   │   │   └── itemService.js # Item management API
+│   │   ├── 📁 assets/         # Static assets
+│   │   └── App.jsx            # Main app component
+│   ├── package.json           # Frontend dependencies
+│   └── tailwind.config.js     # Tailwind CSS config
+│
+├── .gitignore                 # Git ignore rules
+├── README.md                  # This documentation
+└── INTEGRATION.md             # Technical integration guide
+```
+
+---
+
+## 🔧 Key Features
+
+### 🛡️ Trust & Security
+- **DigiLocker Integration** - Government-verified identity
+- **Trust Score System** - Dynamic reputation based on transactions
+- **Secure Escrow** - Protected payment processing
+- **JWT Authentication** - Secure session management
+
+### 🌱 Environmental Impact
+- **CO₂ Tracking** - Real-time carbon footprint reduction
+- **Water Conservation** - Environmental impact visualization
+- **Sustainability Metrics** - Personal and community impact
+
+### 🎮 Gamification
+- **Eco-Points System** - Rewards for sustainable actions
+- **Achievement Badges** - Community recognition
+- **Progress Tracking** - Visual goal achievement
+- **Leaderboards** - Community engagement
+
+### 💻 Modern UI/UX
+- **Responsive Design** - Mobile-first approach
+- **Smooth Animations** - Enhanced user experience
+- **Intuitive Navigation** - User-friendly interface
+- **Real-time Updates** - Instant feedback and notifications
+
+---
+
+## 🧪 Testing & Development
+
+### Running Tests
+```bash
+# Backend tests
+cd backend
+npm test
+
+# Frontend tests
+cd frontend
+npm test
+```
+
+### Development Mode
+```bash
+# Start both servers concurrently
+npm run dev:all
+
+# Or start individually
+cd backend && npm run dev
+cd frontend && npm run dev
+```
+
+### API Testing
+Use the included Postman collection or test endpoints directly:
+```bash
+# Test authentication
+curl -X POST http://localhost:5000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","password":"password"}'
+```
+
+---
+
+## 🌟 Hackathon Demo Flow
+
+### Demo Scenario: "Sarah's Sustainable Journey"
+
+1. **Registration** (30 seconds)
+   - Sarah signs up with email
+   - Completes DigiLocker verification
+   - Trust score initialized
+
+2. **Profile Setup** (45 seconds)
+   - Uploads profile picture
+   - Sets sustainability preferences
+   - Views environmental impact dashboard
+
+3. **Listing Creation** (60 seconds)
+   - Lists vintage leather jacket
+   - Sets price and description
+   - Views predicted environmental impact
+
+4. **Marketplace Browsing** (45 seconds)
+   - Discovers MacBook Pro listing
+   - Checks seller's trust score
+   - Reviews environmental benefits
+
+5. **Secure Purchase** (90 seconds)
+   - Initiates escrow transaction
+   - Scans QR code for payment
+   - Receives purchase confirmation
+
+6. **Impact Celebration** (30 seconds)
+   - Views updated eco-points
+   - Unlocks "Eco Warrior" badge
+   - Shares environmental impact
+
+**Total Demo Time: 5 minutes**
+
+---
+
+## 🚀 Deployment
+
+### Environment Configuration
+```bash
+# Backend (.env)
+PORT=5000
+MONGODB_URI=mongodb://localhost:27017/ecosprout
+JWT_SECRET=your_secure_jwt_secret_here
+NODE_ENV=production
+
+# Frontend (.env)
+VITE_API_URL=https://your-api-domain.com/api
+VITE_APP_NAME=EcoSprout
+```
+
+### Production Deployment
+1. **Backend**: Deploy to Heroku, Railway, or DigitalOcean
+2. **Frontend**: Deploy to Vercel, Netlify, or AWS S3
+3. **Database**: MongoDB Atlas for cloud database
+4. **Domain**: Configure custom domain and SSL
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Commit changes: `git commit -m 'Add amazing feature'`
+4. Push to branch: `git push origin feature/amazing-feature`
+5. Open a Pull Request
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🏆 Hackathon Team
+
+**EcoSprout Team** - Building a sustainable future, one transaction at a time.
+
+*Made with ❤️ for a greener tomorrow*
+
+---
+
+## 📞 Support
+
+For questions, issues, or demo requests:
+- 📧 Email: team@ecosprout.com
+- 🐛 Issues: [GitHub Issues](https://github.com/yourusername/ecosprout/issues)
+- 💬 Discord: [Join our community](https://discord.gg/ecosprout)
+
+---
+
+**🌱 Every transaction plants a seed for a sustainable future 🌱**
