@@ -1,0 +1,131 @@
+/* CORRECT */
+@import 'leaflet/dist/leaflet.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(135deg, #f0f9f4 0%, #e8f5e8 50%, #f0f9f4 100%);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    position: relative;
+  }
+  
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+      radial-gradient(circle at 20% 80%, rgba(34, 197, 94, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%, rgba(59, 130, 246, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+  }
+  
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary-600 hover:bg-primary-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200 shadow-sm hover:shadow-md;
+  }
+  
+  .btn-secondary {
+    @apply bg-white hover:bg-gray-50 text-primary-700 font-medium py-3 px-6 rounded-lg border border-primary-200 transition-colors duration-200 shadow-sm hover:shadow-md;
+  }
+  
+  .card {
+    @apply bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200;
+  }
+  
+  .card-hover {
+    @apply card hover:shadow-lg transition-shadow duration-200;
+  }
+  
+  .input-field {
+    @apply w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-400 transition-colors duration-200 text-gray-900 placeholder-gray-500;
+  }
+  
+  .trust-badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary-100 text-primary-800;
+  }
+  
+  .eco-counter {
+    @apply text-center p-6 rounded-lg bg-white border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200;
+  }
+  
+  .glass-effect {
+    @apply bg-white/80 backdrop-blur-sm border border-gray-200 shadow-sm;
+  }
+  
+  .glass-card {
+    @apply bg-white/90 backdrop-blur-sm border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200;
+  }
+  
+  .glass-navbar {
+    @apply bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm;
+  }
+  
+  .glass-modal {
+    @apply bg-white border border-gray-200 rounded-lg shadow-lg;
+  }
+  
+  .premium-card {
+    @apply bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200;
+  }
+  
+  .gradient-text {
+    @apply text-primary-600;
+  }
+  
+  .gradient-bg {
+    @apply bg-primary-50;
+  }
+  
+  .hero-gradient {
+    @apply bg-gradient-to-br from-primary-50 to-secondary-50;
+  }
+  
+  .fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+  }
+  
+  .skeleton {
+    @apply bg-gray-200 animate-pulse rounded;
+  }
+}
+
+.leaflet-container {
+  height: 300px;
+  width: 100%;
+  border-radius: 0.75rem;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
