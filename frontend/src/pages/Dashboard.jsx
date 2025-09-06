@@ -1,26 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useUser } from '../contexts/UserContext';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Award,
   Shield,
   Leaf,
-  Star,
   TrendingUp,
   Package,
   DollarSign,
   Eye,
   Heart,
-  MessageSquare,
-  Calendar,
   CheckCircle,
   AlertCircle,
-  Settings,
   Plus,
   BarChart3,
   Users,
-  Droplets,
-  Recycle
+  Droplets
 } from 'lucide-react';
 
 const Dashboard = () => {
@@ -175,18 +170,18 @@ const Dashboard = () => {
           <div className="card p-6 animate-fade-in-up">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-semibold text-gray-900">Trust Score</h3>
-              <div className={`w-3 h-3 rounded-full ₹{getTrustColor(user.trustScore)} animate-pulse`}></div>
+              <div className={`w-3 h-3 rounded-full ${getTrustColor(user.trustScore)} animate-pulse`}></div>
             </div>
             <div className="flex items-center space-x-3">
-              <div className={`flex items-center space-x-2 px-3 py-2 rounded-full ₹{getTrustColor(user.trustScore)} text-white animate-pulse-glow`}>
+              <div className={`flex items-center space-x-2 px-3 py-2 rounded-full ${getTrustColor(user.trustScore)} text-white animate-pulse-glow`}>
                 <Shield className="h-5 w-5" />
                 <span className="text-xl font-bold">{user.trustScore}</span>
               </div>
               <div className="flex-1">
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div 
-                    className={`h-2 rounded-full transition-all duration-1000 ₹{getTrustColor(user.trustScore).replace('bg-', 'bg-')}`}
-                    style={{ width: `₹{user.trustScore}%` }}
+                    className={`h-2 rounded-full transition-all duration-1000 ${getTrustColor(user.trustScore)}`}
+                    style={{ width: `${user.trustScore}%` }}
                   ></div>
                 </div>
                 <p className="text-xs text-gray-600 mt-1">Excellent standing</p>
@@ -418,7 +413,7 @@ const Dashboard = () => {
                     <div className="p-4">
                       <div className="flex items-center justify-between mb-2">
                         <h3 className="font-medium text-gray-900 truncate">{listing.title}</h3>
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ₹{getStatusColor(listing.status)}`}>
+                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(listing.status)}`}>
                           {listing.status}
                         </span>
                       </div>
@@ -475,7 +470,7 @@ const Dashboard = () => {
                         <div className="flex items-center space-x-4 text-sm">
                           <span className="text-primary-600 font-bold">₹{purchase.price}</span>
                           <span className="text-gray-500">{purchase.date}</span>
-                          <span className={`px-2 py-1 rounded-full text-xs font-medium ₹{getStatusColor(purchase.status)}`}>
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(purchase.status)}`}>
                             {purchase.status}
                           </span>
                         </div>

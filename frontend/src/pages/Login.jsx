@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
 import { Leaf, Shield, Mail, Lock, Eye, EyeOff } from 'lucide-react';
@@ -8,37 +8,31 @@ const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
-    password: ''
+    password: '',
+    role: 'buyer'
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setError('');
     
-    // Simulate API call
-    setTimeout(() => {
-      const userData = {
-        name: 'Alex Johnson',
-        email: formData.email,
-        trustScore: 92,
-        isVerified: true,
-        ecoPoints: 2150,
-        co2Saved: 67.8,
-        waterSaved: 2340,
-        itemsSold: 18,
-        badges: ['eco-warrior', 'trusted-seller', 'community-champion']
-      };
+    try {
+      const result = await login(formData);
       
-      login(userData);
-      setIsLoading(false);
-      
-      // Show trust score celebration
-      setTimeout(() => {
+      if (result.success) {
         navigate('/dashboard');
-      }, 1000);
-    }, 1500);
+      } else {
+        setError(result.message || 'Login failed');
+      }
+    } catch (error) {
+      setError('Login failed: ' + error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -90,6 +84,22 @@ const Login = () => {
               <div className="text-xs text-gray-600">Trusted community</div>
             </div>
           </div>
+
+          {/* Error Message */}
+          {error && (
+            <div className="p-4 bg-red-50 border border-red-200 rounded-lg animate-fade-in-up">
+              <div className="flex items-center">
+                <div className="flex-shrink-0">
+                  <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <div className="ml-3">
+                  <p className="text-sm text-red-800">{error}</p>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -151,6 +161,80 @@ const Login = () => {
               </Link>
             </div>
 
+            <div>
+              <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-2">
+                Login as
+              </label>
+              <div className="grid grid-cols-3 gap-3">
+                <div>
+                  <input
+                    type="radio"
+                    id="buyer"
+                    name="role"
+                    value="buyer"
+                    checked={formData.role === 'buyer'}
+                    onChange={handleChange}
+                    className="sr-only"
+                  />
+                  <label
+                    htmlFor="buyer"
+                    className={`block p-3 border-2 rounded-lg cursor-pointer text-center transition-all ${
+                      formData.role === 'buyer'
+                        ? 'border-primary-500 bg-primary-50 text-primary-700'
+                        : 'border-gray-200 hover:border-gray-300'
+                    }`}
+                  >
+                    <div className="font-medium text-sm">Buyer</div>
+                    <div className="text-xs text-gray-500 mt-1">Browse & buy</div>
+                  </label>
+                </div>
+                <div>
+                  <input
+                    type="radio"
+                    id="seller"
+                    name="role"
+                    value="seller"
+                    checked={formData.role === 'seller'}
+                    onChange={handleChange}
+                    className="sr-only"
+                  />
+                  <label
+                    htmlFor="seller"
+                    className={`block p-3 border-2 rounded-lg cursor-pointer text-center transition-all ${
+                      formData.role === 'seller'
+                        ? 'border-primary-500 bg-primary-50 text-primary-700'
+                        : 'border-gray-200 hover:border-gray-300'
+                    }`}
+                  >
+                    <div className="font-medium text-sm">Seller</div>
+                    <div className="text-xs text-gray-500 mt-1">List & sell</div>
+                  </label>
+                </div>
+                <div>
+                  <input
+                    type="radio"
+                    id="both"
+                    name="role"
+                    value="both"
+                    checked={formData.role === 'both'}
+                    onChange={handleChange}
+                    className="sr-only"
+                  />
+                  <label
+                    htmlFor="both"
+                    className={`block p-3 border-2 rounded-lg cursor-pointer text-center transition-all ${
+                      formData.role === 'both'
+                        ? 'border-primary-500 bg-primary-50 text-primary-700'
+                        : 'border-gray-200 hover:border-gray-300'
+                    }`}
+                  >
+                    <div className="font-medium text-sm">Both</div>
+                    <div className="text-xs text-gray-500 mt-1">Buy & sell</div>
+                  </label>
+                </div>
+              </div>
+            </div>
+
             <button
               type="submit"
               disabled={isLoading}
@@ -167,7 +251,7 @@ const Login = () => {
           {/* Footer */}
           <div className="text-center pt-4 border-t border-gray-200">
             <p className="text-sm text-gray-600">
-              Don't have an account?{' '}
+              Don&apos;t have an account?{' '}
               <Link to="/register" className="text-primary-600 hover:text-primary-700 font-medium">
                 Sign up for free
               </Link>
@@ -176,9 +260,14 @@ const Login = () => {
 
           {/* Demo hint */}
           <div className="text-center p-3 bg-trust-50 rounded-lg">
-            <p className="text-xs text-trust-700">
-              Demo: Use any email and password to login
+            <p className="text-xs text-trust-700 mb-2">
+              Demo Accounts (use any password):
             </p>
+            <div className="text-xs text-trust-600 space-y-1">
+              <p><strong>Buyer:</strong> buyer@test.com</p>
+              <p><strong>Seller:</strong> seller@test.com</p>
+              <p><strong>Both:</strong> admin@test.com</p>
+            </div>
           </div>
         </div>
       </div>

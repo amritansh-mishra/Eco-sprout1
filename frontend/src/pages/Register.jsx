@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
-import { Leaf, Shield, Mail, Lock, User, Eye, EyeOff, CheckCircle } from 'lucide-react';
+import { Leaf, Mail, Lock, User, Eye, EyeOff, CheckCircle } from 'lucide-react';
 
 const Register = () => {
-  const { login } = useUser();
+  const { register } = useUser();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    role: 'buyer'
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -26,22 +27,24 @@ const Register = () => {
     
     setIsLoading(true);
     
-    // Simulate API call
-    setTimeout(() => {
-      login({
+    try {
+      const result = await register({
         name: formData.name,
         email: formData.email,
-        trustScore: 75, // New users start with a basic trust score
-        isVerified: false, // New users are not initially verified
-        ecoPoints: 100, // Welcome bonus
-        co2Saved: 0,
-        waterSaved: 0,
-        itemsSold: 0,
-        badges: ['newcomer']
+        password: formData.password,
+        role: formData.role
       });
+      
+      if (result.success) {
+        navigate('/dashboard');
+      } else {
+        alert(result.message || 'Registration failed');
+      }
+    } catch (error) {
+      alert('Registration failed: ' + error.message);
+    } finally {
       setIsLoading(false);
-      navigate('/dashboard');
-    }, 1500);
+    }
   };
 
   const handleChange = (e) => {
@@ -62,15 +65,6 @@ const Register = () => {
     }
   };
 
-  const getPasswordStrengthColor = () => {
-    switch (passwordStrength) {
-      case 1: return 'bg-red-500';
-      case 2: return 'bg-orange-500';
-      case 3: return 'bg-trust-500';
-      case 4: return 'bg-green-500';
-      default: return 'bg-gray-300';
-    }
-  };
 
   const getPasswordStrengthText = () => {
     switch (passwordStrength) {
@@ -156,6 +150,80 @@ const Register = () => {
             </div>
 
             <div>
+              <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-2">
+                Account Type
+              </label>
+              <div className="grid grid-cols-3 gap-4">
+                <div>
+                  <input
+                    type="radio"
+                    id="buyer"
+                    name="role"
+                    value="buyer"
+                    checked={formData.role === 'buyer'}
+                    onChange={handleChange}
+                    className="sr-only"
+                  />
+                  <label
+                    htmlFor="buyer"
+                    className={`block p-4 border-2 rounded-lg cursor-pointer text-center transition-all ${
+                      formData.role === 'buyer'
+                        ? 'border-green-500 bg-green-50 text-green-700'
+                        : 'border-gray-200 hover:border-gray-300'
+                    }`}
+                  >
+                    <div className="font-medium">Buyer</div>
+                    <div className="text-sm text-gray-500 mt-1">Browse & purchase items</div>
+                  </label>
+                </div>
+                <div>
+                  <input
+                    type="radio"
+                    id="seller"
+                    name="role"
+                    value="seller"
+                    checked={formData.role === 'seller'}
+                    onChange={handleChange}
+                    className="sr-only"
+                  />
+                  <label
+                    htmlFor="seller"
+                    className={`block p-4 border-2 rounded-lg cursor-pointer text-center transition-all ${
+                      formData.role === 'seller'
+                        ? 'border-green-500 bg-green-50 text-green-700'
+                        : 'border-gray-200 hover:border-gray-300'
+                    }`}
+                  >
+                    <div className="font-medium">Seller</div>
+                    <div className="text-sm text-gray-500 mt-1">List & sell items</div>
+                  </label>
+                </div>
+                <div>
+                  <input
+                    type="radio"
+                    id="both"
+                    name="role"
+                    value="both"
+                    checked={formData.role === 'both'}
+                    onChange={handleChange}
+                    className="sr-only"
+                  />
+                  <label
+                    htmlFor="both"
+                    className={`block p-4 border-2 rounded-lg cursor-pointer text-center transition-all ${
+                      formData.role === 'both'
+                        ? 'border-green-500 bg-green-50 text-green-700'
+                        : 'border-gray-200 hover:border-gray-300'
+                    }`}
+                  >
+                    <div className="font-medium">Both</div>
+                    <div className="text-sm text-gray-500 mt-1">Buy & sell items</div>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div>
               <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
                 Password
               </label>
@@ -184,8 +252,13 @@ const Register = () => {
                   <div className="flex items-center space-x-2">
                     <div className="flex-1 bg-gray-200 rounded-full h-2">
                       <div
-                        className={`h-2 rounded-full transition-all duration-300 ₹{getPasswordStrengthColor()}`}
-                        style={{ width: `₹{(passwordStrength / 4) * 100}%` }}
+                        className={`h-2 rounded-full transition-all duration-300 ${
+                          passwordStrength === 1 ? 'bg-red-500' :
+                          passwordStrength === 2 ? 'bg-orange-500' :
+                          passwordStrength === 3 ? 'bg-trust-500' :
+                          passwordStrength === 4 ? 'bg-green-500' : 'bg-gray-300'
+                        }`}
+                        style={{ width: `${(passwordStrength / 4) * 100}%` }}
                       ></div>
                     </div>
                     <span className="text-xs text-gray-600">

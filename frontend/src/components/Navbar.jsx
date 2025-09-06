@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
 import { 
@@ -6,10 +6,8 @@ import {
   User, 
   Menu, 
   X, 
-  ShoppingBag, 
   Plus,
   LogOut,
-  Settings,
   Shield,
   Award
 } from 'lucide-react';
@@ -26,11 +24,6 @@ const Navbar = () => {
     setIsProfileOpen(false);
   };
 
-  const getTrustColor = (score) => {
-    if (score >= 90) return 'bg-green-500';
-    if (score >= 70) return 'bg-trust-500';
-    return 'bg-orange-500';
-  };
 
   return (
     <nav className="fixed top-0 w-full glass-effect z-50 border-b border-gray-200/50">
@@ -46,14 +39,12 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link to="/" className="text-gray-700 hover:text-primary-600 font-medium transition-all duration-300 hover:scale-105 relative group">
-              Home
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-600 group-hover:w-full transition-all duration-300"></span>
-            </Link>
-            <Link to="/create" className="flex items-center space-x-1 text-gray-700 hover:text-primary-600 font-medium transition-all duration-300 hover:scale-105 group">
-              <Plus className="h-4 w-4 group-hover:rotate-90 transition-transform duration-300" />
-              <span>Sell</span>
-            </Link>
+            {user && (user.role === 'seller' || user.role === 'both') && (
+              <Link to="/create" className="flex items-center space-x-1 text-gray-700 hover:text-primary-600 font-medium transition-all duration-300 hover:scale-105 group">
+                <Plus className="h-4 w-4 group-hover:rotate-90 transition-transform duration-300" />
+                <span>Sell</span>
+              </Link>
+            )}
           </div>
 
           {/* Right side */}
@@ -157,20 +148,15 @@ const Navbar = () => {
       {isMenuOpen && (
         <div className="md:hidden bg-white border-t border-gray-200 animate-slide-up">
           <div className="px-4 py-4 space-y-3">
-            <Link
-              to="/"
-              className="block py-2 text-gray-700 hover:text-primary-600 font-medium transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Home
-            </Link>
-            <Link
-              to="/create"
-              className="block py-2 text-gray-700 hover:text-primary-600 font-medium transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Sell Item
-            </Link>
+            {user && (user.role === 'seller' || user.role === 'both') && (
+              <Link
+                to="/create"
+                className="block py-2 text-gray-700 hover:text-primary-600 font-medium transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Sell Item
+              </Link>
+            )}
           </div>
         </div>
       )}

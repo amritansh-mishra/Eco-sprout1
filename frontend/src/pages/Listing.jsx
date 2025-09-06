@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
 import {
   MapPin,
@@ -16,11 +16,9 @@ import {
   CheckCircle,
   User,
   ArrowLeft,
-  Camera
 } from 'lucide-react';
 
 const Listing = () => {
-  const { id } = useParams();
   const { user } = useUser();
   const [selectedImage, setSelectedImage] = useState(0);
   const [isFavorited, setIsFavorited] = useState(false);
@@ -105,17 +103,12 @@ const Listing = () => {
     }
   ];
 
-  const getTrustColor = (score) => {
-    if (score >= 90) return 'bg-green-500';
-    if (score >= 70) return 'bg-trust-500';
-    return 'bg-orange-500';
-  };
 
   const renderStars = (rating) => {
     return Array.from({ length: 5 }, (_, i) => (
       <Star
         key={i}
-        className={`h-4 w-4 ₹{
+        className={`h-4 w-4 ${
           i < rating ? 'text-trust-500 fill-current' : 'text-gray-300'
         }`}
       />
@@ -153,13 +146,13 @@ const Listing = () => {
                   <div className="absolute top-4 right-4 flex space-x-2">
                     <button
                       onClick={() => setIsFavorited(!isFavorited)}
-                      className={`p-2 rounded-full transition-colors ₹{
+                      className={`p-2 rounded-full transition-colors ${
                         isFavorited
                           ? 'bg-red-500 text-white'
                           : 'bg-white/80 text-gray-600 hover:text-red-500'
                       }`}
                     >
-                      <Heart className={`h-5 w-5 ₹{isFavorited ? 'fill-current' : ''}`} />
+                      <Heart className={`h-5 w-5 ${isFavorited ? 'fill-current' : ''}`} />
                     </button>
                     <button className="p-2 bg-white/80 rounded-full text-gray-600 hover:text-primary-600 transition-colors">
                       <Share2 className="h-5 w-5" />
@@ -172,7 +165,7 @@ const Listing = () => {
                     <button
                       key={index}
                       onClick={() => setSelectedImage(index)}
-                      className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-colors ₹{
+                      className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-colors ${
                         selectedImage === index
                           ? 'border-primary-600'
                           : 'border-gray-300 hover:border-gray-400'
@@ -180,7 +173,7 @@ const Listing = () => {
                     >
                       <img
                         src={image}
-                        alt={`₹{listing.title} ₹{index + 1}`}
+                        alt={` ${listing.title} ${index + 1}`}
                         className="w-full h-full object-cover"
                       />
                     </button>
@@ -216,7 +209,7 @@ const Listing = () => {
                 </div>
 
                 <div className="text-3xl font-bold text-primary-600">
-                  ₹{listing.price}
+                  ${listing.price}
                 </div>
 
                 <div className="flex items-center space-x-4">
@@ -308,7 +301,7 @@ const Listing = () => {
                   <div>
                     <h3 className="font-medium text-blue-900 mb-2">Similar Listings Detected</h3>
                     <p className="text-sm text-blue-800 mb-3">
-                      We found similar items in your area. Compare prices and conditions to ensure you're getting the best deal.
+                      We found similar items in your area. Compare prices and conditions to ensure you&apos;re getting the best deal.
                     </p>
                     <div className="flex items-center space-x-2 text-sm text-blue-700">
                       <span className="font-medium">Similar items found:</span>
@@ -339,7 +332,8 @@ const Listing = () => {
                       </div>
                       <span className="text-xs text-gray-500">{review.date}</span>
                     </div>
-                    <p className="text-sm text-gray-700">{review.comment}</p>
+                    <p className="text-sm text-gray-600">{review.comment}</p>
+                    <p className="text-sm text-gray-600">Don&apos;t worry, your information is secure and won&apos;t be shared.</p>
                   </div>
                 ))}
               </div>
@@ -471,7 +465,7 @@ const Listing = () => {
             <textarea
               rows={4}
               className="input-field resize-none"
-              placeholder="Hi! I'm interested in your item..."
+              placeholder="Hi! I&apos;m interested in your item..."
             ></textarea>
             <div className="flex space-x-3 mt-4">
               <button

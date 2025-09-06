@@ -12,6 +12,7 @@ import {
   Search,
   TrendingUp
 } from 'lucide-react';
+import itemService from '../services/itemService.js';
 
 // Fix for default markers in react-leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -27,6 +28,9 @@ const Home = () => {
   const [itemsRescued, setItemsRescued] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [items, setItems] = useState([]);
+  const [, setLoading] = useState(true);
+  const [, setError] = useState(null);
 
   const categories = [
     { id: 'all', name: 'All Items', icon: '🌟' },
@@ -97,6 +101,14 @@ const Home = () => {
   ];
 
   useEffect(() => {
+    // Simulate loading delay
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
     // Animate counters
     const animateCounter = (setter, target, duration = 2000) => {
       let start = 0;
@@ -115,12 +127,41 @@ const Home = () => {
     animateCounter(setCo2Saved, 2847);
     animateCounter(setWaterSaved, 15632);
     animateCounter(setItemsRescued, 1893);
+
+    // Fetch items from backend
+    const fetchItems = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        const response = await itemService.getItems({
+          limit: 8,
+          sort: '-createdAt'
+        });
+        
+        if (response.success) {
+          setItems(response.data);
+        }
+      } catch (err) {
+        console.error('Failed to fetch items:', err);
+        setError(err.message);
+        // Fallback to static data if API fails
+        setItems(featuredItems);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchItems();
   }, []);
 
 
-  const filteredItems = featuredItems.filter(item => {
+  // Use items from API or fallback to static data
+  const displayItems = items.length > 0 ? items : featuredItems;
+  
+  const filteredItems = displayItems.filter(item => {
     const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         item.seller.name.toLowerCase().includes(searchQuery.toLowerCase());
+                         (item.seller?.name || '').toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });

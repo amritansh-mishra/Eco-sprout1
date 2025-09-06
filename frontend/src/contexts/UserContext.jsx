@@ -1,4 +1,6 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import authService from '../services/authService.js';
 
 const UserContext = createContext();
 
@@ -13,45 +15,119 @@ export const useUser = () => {
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Check for stored user data
-    const storedUser = localStorage.getItem('ecosprout_user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-    setIsLoading(false);
+    // Check if user is authenticated and get current user
+    const initializeUser = async () => {
+      if (authService.isAuthenticated()) {
+        try {
+          const response = await authService.getCurrentUser();
+          if (response.success) {
+            setUser(response.user);
+          }
+        } catch (error) {
+          console.error('Failed to get current user:', error);
+          setError(error.message);
+          // Token might be invalid, clear it
+          authService.logout();
+        }
+      }
+      setIsLoading(false);
+    };
+
+    initializeUser();
   }, []);
 
-  const login = (userData) => {
-    const userWithDefaults = {
-      ...userData,
-      trustScore: userData.trustScore || 85,
-      isVerified: userData.isVerified || false,
-      ecoPoints: userData.ecoPoints || 1250,
-      co2Saved: userData.co2Saved || 45.2,
-      waterSaved: userData.waterSaved || 1200,
-      itemsSold: userData.itemsSold || 12,
-      badges: userData.badges || ['eco-warrior', 'trusted-seller']
-    };
-    setUser(userWithDefaults);
-    localStorage.setItem('ecosprout_user', JSON.stringify(userWithDefaults));
+  const login = async (credentials) => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      
+      const response = await authService.login(credentials);
+      
+      if (response.success) {
+        setUser(response.user);
+        return { success: true, user: response.user };
+      }
+      
+      return { success: false, message: response.message };
+    } catch (error) {
+      setError(error.message);
+      return { success: false, message: error.message };
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const register = async (userData) => {
+    try {
+      setIsLoading(true);
+      setError(null);
+      
+      const response = await authService.register(userData);
+      
+      if (response.success) {
+        setUser(response.user);
+        return { success: true, user: response.user };
+      }
+      
+      return { success: false, message: response.message };
+    } catch (error) {
+      setError(error.message);
+      return { success: false, message: error.message };
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const logout = () => {
+    authService.logout();
     setUser(null);
-    localStorage.removeItem('ecosprout_user');
+    setError(null);
   };
 
-  const updateUser = (updates) => {
-    const updatedUser = { ...user, ...updates };
-    setUser(updatedUser);
-    localStorage.setItem('ecosprout_user', JSON.stringify(updatedUser));
+  const updateUser = async (updates) => {
+    try {
+      setError(null);
+      
+      const response = await authService.updateProfile(updates);
+      
+      if (response.success) {
+        setUser(response.user);
+        return { success: true, user: response.user };
+      }
+      
+      return { success: false, message: response.message };
+    } catch (error) {
+      setError(error.message);
+      return { success: false, message: error.message };
+    }
+  };
+
+  const clearError = () => {
+    setError(null);
   };
 
   return (
-    <UserContext.Provider value={{ user, login, logout, updateUser, isLoading }}>
+    <UserContext.Provider value={{ 
+      user, 
+      login, 
+      register,
+      logout, 
+      updateUser, 
+      isLoading, 
+      error,
+      clearError,
+      isAuthenticated: !!user
+    }}>
       {children}
     </UserContext.Provider>
   );
 };
+
+UserProvider.propTypes = {
+  children: PropTypes.node.isRequired
+};
+
+export default UserProvider;
